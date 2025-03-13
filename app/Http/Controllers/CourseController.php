@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Course;
+use App\Models\HasFactory;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+         * Display a listing of the resource.
+         */
     public function index()
     {
-        //
+        $courses = Course::all();
+
+        return view('courses.index',compact('courses'));
+
     }
 
     /**
@@ -19,7 +23,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -27,38 +31,33 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        Course::create(['name' => $request->name,
+        'description' => $request->description,
+    ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('courses.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+  
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Course $course)
     {
-        //
+        $course->delete();
+        return redirect()->route('courses.index');
     }
+
+    
 }
